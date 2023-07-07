@@ -30,6 +30,8 @@ public partial class DashboardView : ToolPage
 
     public DashboardViewModel ViewModel { get; }
 
+    public DashboardBannerViewModel BannerViewModel { get; }
+
     public static ObservableCollection<WidgetViewModel> PinnedWidgets { get; set; }
 
     private static WidgetHost _widgetHost;
@@ -48,6 +50,7 @@ public partial class DashboardView : ToolPage
     public DashboardView()
     {
         ViewModel = new DashboardViewModel();
+        BannerViewModel = new DashboardBannerViewModel();
         _widgetServiceHelper = new WidgetServiceHelper();
         this.InitializeComponent();
 
@@ -627,7 +630,7 @@ public partial class DashboardView : ToolPage
             roamingProperties.Remove("HideDashboardBanner");
         }
 
-        ViewModel.ShowDashboardBanner = true;
+        BannerViewModel.ShowDashboardBanner = true;
     }
 #endif
 }
