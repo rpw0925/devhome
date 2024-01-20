@@ -1,7 +1,6 @@
 ﻿// Copyright (c) Microsoft Corporation and Contributors
 // Licensed under the MIT license.
 
-using System;
 using System.Collections.Generic;
 using DevHome.SetupFlow.Models;
 
@@ -12,16 +11,16 @@ namespace DevHome.SetupFlow.Services.WinGet;
 /// </summary>
 internal class WinGetPackageCache : IWinGetPackageCache
 {
-    private readonly Dictionary<Uri, IWinGetPackage> _cache = new ();
+    private readonly Dictionary<string, IWinGetPackage> _cache = new ();
     private readonly object _lock = new ();
 
     /// <inheritdoc />
-    public IList<IWinGetPackage> GetPackages(IEnumerable<Uri> packageUris, out IEnumerable<Uri> packageUrisNotFound)
+    public IList<IWinGetPackage> GetPackages(IEnumerable<WinGetPackageUri> packageUris, out IEnumerable<WinGetPackageUri> packageUrisNotFound)
     {
         lock (_lock)
         {
             var foundPackages = new List<IWinGetPackage>();
-            var notFoundPackageUris = new List<Uri>();
+            var notFoundPackageUris = new List<WinGetPackageUri>();
 
             foreach (var packageUri in packageUris)
             {
@@ -41,11 +40,11 @@ internal class WinGetPackageCache : IWinGetPackageCache
     }
 
     /// <inheritdoc />
-    public bool TryGetPackage(Uri packageUri, out IWinGetPackage package)
+    public bool TryGetPackage(WinGetPackageUri packageUri, out IWinGetPackage package)
     {
         lock (_lock)
         {
-            if (_cache.TryGetValue(packageUri, out package))
+            if (_cache.TryGetValue(packageUri.ToUriString(), out package))
             {
                 return true;
             }
@@ -56,11 +55,11 @@ internal class WinGetPackageCache : IWinGetPackageCache
     }
 
     /// <inheritdoc />
-    public bool TryAddPackage(Uri packageUri, IWinGetPackage package)
+    public bool TryAddPackage(WinGetPackageUri packageUri, IWinGetPackage package)
     {
         lock (_lock)
         {
-            return _cache.TryAdd(packageUri, package);
+            return _cache.TryAdd(packageUri.ToUriString(), package);
         }
     }
 

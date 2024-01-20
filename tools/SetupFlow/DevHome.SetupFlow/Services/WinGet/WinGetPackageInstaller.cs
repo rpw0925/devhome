@@ -73,6 +73,7 @@ internal class WinGetPackageInstaller : IWinGetPackageInstaller
     {
         var installOptions = _wingetFactory.CreateInstallOptions();
         installOptions.PackageInstallMode = PackageInstallMode.Silent;
+        installOptions.PackageVersionId = package.AvailableVersions[0];
         var packageManager = _wingetFactory.CreatePackageManager();
         return await packageManager.InstallPackageAsync(package, installOptions).AsTask();
     }

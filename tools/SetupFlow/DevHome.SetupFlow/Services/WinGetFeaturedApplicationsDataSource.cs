@@ -116,12 +116,12 @@ public class WinGetFeaturedApplicationsDataSource : WinGetPackageDataSource
     /// </summary>
     /// <param name="uriStrings">List of package URI strings</param>
     /// <returns>List of package URIs</returns>
-    private IList<Uri> ParseURIs(IReadOnlyList<string> uriStrings)
+    private IList<WinGetPackageUri> ParseURIs(IReadOnlyList<string> uriStrings)
     {
-        var result = new List<Uri>();
+        var result = new List<WinGetPackageUri>();
         foreach (var app in uriStrings)
         {
-            if (Uri.TryCreate(app, UriKind.Absolute, out var uri))
+            if (WinGetPackageUri.TryCreate(app, out var uri))
             {
                 result.Add(uri);
             }

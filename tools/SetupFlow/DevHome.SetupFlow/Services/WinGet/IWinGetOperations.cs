@@ -1,7 +1,6 @@
 ﻿// Copyright (c) Microsoft Corporation and Contributors
 // Licensed under the MIT license.
 
-using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 using DevHome.SetupFlow.Models;
@@ -14,7 +13,7 @@ internal interface IWinGetOperations
     public Task<InstallPackageResult> InstallPackageAsync(IWinGetPackage package);
 
     /// <inheritdoc cref="IWinGetGetPackageOperation.GetPackagesAsync"/>"
-    public Task<IList<IWinGetPackage>> GetPackagesAsync(IList<Uri> packageUris);
+    public Task<IList<IWinGetPackage>> GetPackagesAsync(IList<WinGetPackageUri> packageUris);
 
     /// <inheritdoc cref="IWinGetSearchOperation.SearchAsync"/>"
     public Task<IList<IWinGetPackage>> SearchAsync(string query, uint limit);

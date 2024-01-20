@@ -28,6 +28,16 @@ public class WinGetPackageJsonDataSource : WinGetPackageDataSource
         public Uri Uri { get; set; }
 
         public string Icon { get; set; }
+
+        public WinGetPackageUri GetPackageUri()
+        {
+            if (WinGetPackageUri.TryCreate(Uri, out var packageUri))
+            {
+                return packageUri;
+            }
+
+            return null;
+        }
     }
 
     /// <summary>
@@ -96,12 +106,13 @@ public class WinGetPackageJsonDataSource : WinGetPackageDataSource
 
         try
         {
-            var packages = await GetPackagesAsync(jsonCatalog.WinGetPackages.Select(p => p.Uri).ToList());
+            var packageUris = GetPackageUris(jsonCatalog.WinGetPackages);
+            var packages = await GetPackagesAsync(packageUris);
             Log.Logger?.ReportInfo(Log.Component.AppManagement, $"Obtaining icon information for JSON packages: [{string.Join(", ", packages.Select(p => $"({p.Name}, {p.CatalogName})"))}]");
             foreach (var package in packages)
             {
                 var packageUri = WindowsPackageManager.CreatePackageUri(package);
-                var jsonPackage = jsonCatalog.WinGetPackages.FirstOrDefault(p => packageUri == p.Uri);
+                var jsonPackage = jsonCatalog.WinGetPackages.FirstOrDefault(p => packageUri.AreEqual(p.GetPackageUri()));
                 if (jsonPackage != null)
                 {
                     var icon = await GetJsonApplicationIconAsync(jsonPackage);
@@ -130,6 +141,25 @@ public class WinGetPackageJsonDataSource : WinGetPackageDataSource
         }
 
         return null;
+    }
+
+    private IList<WinGetPackageUri> GetPackageUris(IList<JsonWinGetPackage> jsonPackages)
+    {
+        var result = new List<WinGetPackageUri>();
+        foreach (var jsonPackage in jsonPackages)
+        {
+            var packageUri = jsonPackage.GetPackageUri();
+            if (packageUri != null)
+            {
+                result.Add(packageUri);
+            }
+            else
+            {
+                Log.Logger?.ReportWarn(Log.Component.AppManagement, $"Failed to create a winget package uri from {jsonPackage.Uri}.");
+            }
+        }
+
+        return result;
     }
 
     private async Task<IRandomAccessStream> GetJsonApplicationIconAsync(JsonWinGetPackage package)

@@ -23,7 +23,7 @@ public class WinGetPackageJsonDataSourceTest : BaseSetupFlowTest
             PackageHelper.CreatePackage("mock1").Object,
             PackageHelper.CreatePackage("mock2").Object,
         };
-        WindowsPackageManager!.Setup(wpm => wpm.GetPackagesAsync(It.IsAny<IList<Uri>>())).ReturnsAsync(expectedPackages);
+        WindowsPackageManager!.Setup(wpm => wpm.GetPackagesAsync(It.IsAny<IList<WinGetPackageUri>>())).ReturnsAsync(expectedPackages);
 
         // Act
         var loadedPackages = LoadCatalogsFromJsonDataSource("AppManagementPackages_Success.json");
@@ -42,21 +42,21 @@ public class WinGetPackageJsonDataSourceTest : BaseSetupFlowTest
     {
         // Prepare expected package
         var expectedPackages = new List<IWinGetPackage>();
-        WindowsPackageManager.Setup(wpm => wpm.GetPackagesAsync(It.IsAny<IList<Uri>>())).ReturnsAsync(expectedPackages);
+        WindowsPackageManager.Setup(wpm => wpm.GetPackagesAsync(It.IsAny<IList<WinGetPackageUri>>())).ReturnsAsync(expectedPackages);
 
         // Act
         var loadedPackages = LoadCatalogsFromJsonDataSource("AppManagementPackages_Empty.json");
 
         // Assert
         Assert.AreEqual(0, loadedPackages.Count);
-        WindowsPackageManager.Verify(c => c.GetPackagesAsync(It.IsAny<IList<Uri>>()), Times.Never());
+        WindowsPackageManager.Verify(c => c.GetPackagesAsync(It.IsAny<IList<WinGetPackageUri>>()), Times.Never());
     }
 
     [TestMethod]
     public void LoadCatalogs_ExceptionThrownWhenGettingPackages_ReturnsNoCatalogs()
     {
         // Configure package manager
-        WindowsPackageManager.Setup(wpm => wpm.GetPackagesAsync(It.IsAny<IList<Uri>>())).ThrowsAsync(new FindPackagesException(FindPackagesResultStatus.CatalogError));
+        WindowsPackageManager.Setup(wpm => wpm.GetPackagesAsync(It.IsAny<IList<WinGetPackageUri>>())).ThrowsAsync(new FindPackagesException(FindPackagesResultStatus.CatalogError));
 
         // Act
         var loadedPackages = LoadCatalogsFromJsonDataSource("AppManagementPackages_Success.json");
@@ -70,7 +70,7 @@ public class WinGetPackageJsonDataSourceTest : BaseSetupFlowTest
     {
         // Prepare expected package
         var expectedPackages = new List<IWinGetPackage>();
-        WindowsPackageManager.Setup(wpm => wpm.GetPackagesAsync(It.IsAny<IList<Uri>>())).ReturnsAsync(expectedPackages);
+        WindowsPackageManager.Setup(wpm => wpm.GetPackagesAsync(It.IsAny<IList<WinGetPackageUri>>())).ReturnsAsync(expectedPackages);
 
         // Act/Assert
         var fileName = TestHelpers.GetTestFilePath("file_not_found");
