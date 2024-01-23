@@ -93,6 +93,7 @@
                             <RowDefinition Height="*"/>
                             <RowDefinition Height="auto"/>
                             <RowDefinition Height="auto"/>
+                            <RowDefinition Height="auto"/>
                         </Grid.RowDefinitions>
 
                         <!-- Package title -->
@@ -106,16 +107,37 @@
                         <!-- Package Version -->
                         <TextBlock
                             Name="Version"
-                            Grid.Row="1"
+                            Grid.Row="2"
                             MaxLines="1"
                             TextTrimming="CharacterEllipsis"
                             Style="{ThemeResource CaptionTextBlockStyle}"
                             Text="{Binding PackageDescription}"/>
 
+                        <ComboBox
+                            Grid.Row="1"
+                            BorderThickness="0"
+                            FontSize="{ThemeResource CaptionTextBlockFontSize}"
+                            Foreground="{ThemeResource TextFillColorSecondaryBrush}"
+                            HorizontalAlignment="Left"
+                            SelectedIndex="{Binding SelectedVersionIndex, Mode=TwoWay}"
+                            ItemsSource="{Binding Versions}">
+                            <ComboBox.ItemTemplate>
+                                <DataTemplate>
+                                    <StackPanel Spacing="5" Orientation="Horizontal">
+                                        <Ellipse
+                                            Width="5"
+                                            Height="5"
+                                            Fill="{ThemeResource AccentFillColorDefaultBrush}" />
+                                        <TextBlock Text="{Binding}" />
+                                    </StackPanel>
+                                </DataTemplate>
+                            </ComboBox.ItemTemplate>
+                        </ComboBox>
+
                         <!-- Package link / "Installed" -->
                         <ContentControl
                             IsTabStop="False"
-                            Grid.Row="2"
+                            Grid.Row="3"
                             Content="{Binding IsInstalled, Converter={StaticResource LearnMoreInstalledConverter}}" />
                     </Grid>
                 </Grid>

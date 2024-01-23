@@ -2,6 +2,9 @@
 // Licensed under the MIT license.
 
 using System;
+using System.Collections;
+using System.Collections.Generic;
+using System.Linq;
 using System.Threading;
 using DevHome.SetupFlow.Common.Helpers;
 using DevHome.SetupFlow.Common.WindowsPackageManager;
@@ -28,7 +31,8 @@ public class WinGetPackage : IWinGetPackage
         CatalogName = package.DefaultInstallVersion.PackageCatalog.Info.Name;
         UniqueKey = new (Id, CatalogId);
         Name = package.Name;
-        Version = package.DefaultInstallVersion.Version;
+        InstalledVersion = package.InstalledVersion?.Version;
+        Versions = package.AvailableVersions.Select(v => v.Version).ToList();
         IsInstalled = package.InstalledVersion != null;
         IsElevationRequired = requiresElevated;
         PackageUrl = GetMetadataValue(package, metadata => new Uri(metadata.PackageUrl), nameof(CatalogPackageMetadata.PackageUrl), null);
@@ -47,7 +51,9 @@ public class WinGetPackage : IWinGetPackage
 
     public string Name { get; }
 
-    public string Version { get; }
+    public string InstalledVersion { get; }
+
+    public IList<string> Versions { get; }
 
     public bool IsInstalled { get; }
 

@@ -77,6 +77,26 @@
                     <ImageIcon Name="Image" Source="{Binding Icon, Mode=OneWay}"/>
                 </controls:PackageDetailsSettingsCard.HeaderIcon>
                 <StackPanel Orientation="Horizontal" Spacing="10">
+                    <ComboBox
+                        Grid.Row="1"
+                        BorderThickness="0"
+                        FontSize="{ThemeResource CaptionTextBlockFontSize}"
+                        Foreground="{ThemeResource TextFillColorSecondaryBrush}"
+                        HorizontalAlignment="Left"
+                        SelectedIndex="{Binding SelectedVersionIndex, Mode=TwoWay}"
+                        ItemsSource="{Binding Versions}">
+                        <ComboBox.ItemTemplate>
+                            <DataTemplate>
+                                <StackPanel Spacing="5" Orientation="Horizontal">
+                                    <Ellipse
+                                        Width="5"
+                                        Height="5"
+                                        Fill="{ThemeResource AccentFillColorDefaultBrush}" />
+                                    <TextBlock Text="{Binding}" />
+                                </StackPanel>
+                            </DataTemplate>
+                        </ComboBox.ItemTemplate>
+                    </ComboBox>
                     <ContentControl IsTabStop="False" Content="{Binding IsInstalled, Converter={StaticResource LearnMoreInstalledConverter}}" />
                     <Button
                         IsEnabled="{Binding IsInstalled, Converter={StaticResource BoolNegationConverter}}"

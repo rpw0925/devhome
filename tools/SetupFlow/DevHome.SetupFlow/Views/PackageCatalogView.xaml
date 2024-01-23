@@ -36,12 +36,12 @@
                     MaximumRowsOrColumns="3"
                     MinRowSpacing="4"
                     MinColumnSpacing="4"
-                    MinItemHeight="140"
+                    MinItemHeight="150"
                     ItemsStretch="Fill" />
             </ItemsRepeater.Layout>
             <ItemsRepeater.ItemTemplate>
                 <DataTemplate x:DataType="viewmodels:PackageViewModel">
-                    <views:PackageView Height="140" />
+                    <views:PackageView Height="150" />
                 </DataTemplate>
             </ItemsRepeater.ItemTemplate>
         </ItemsRepeater>

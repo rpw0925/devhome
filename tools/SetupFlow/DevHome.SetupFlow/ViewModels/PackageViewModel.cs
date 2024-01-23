@@ -2,6 +2,7 @@
 // Licensed under the MIT license.
 
 using System;
+using System.Collections.Generic;
 using System.Threading.Tasks;
 using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
@@ -59,6 +60,9 @@ public partial class PackageViewModel : ObservableObject
     [NotifyPropertyChangedFor(nameof(ButtonAutomationName))]
     private bool _isSelected;
 
+    [ObservableProperty]
+    private int _selectedVersionIndex;
+
     public PackageViewModel(
         ISetupFlowStringResource stringResource,
         IWindowsPackageManager wpm,
@@ -79,6 +83,8 @@ public partial class PackageViewModel : ObservableObject
         _packageDarkThemeIcon = new Lazy<BitmapImage>(() => GetIconByTheme(RestoreApplicationIconTheme.Dark));
         _packageLightThemeIcon = new Lazy<BitmapImage>(() => GetIconByTheme(RestoreApplicationIconTheme.Light));
         _installPackageTask = new Lazy<InstallPackageTask>(CreateInstallTask(host.GetService<SetupFlowOrchestrator>().ActivityId));
+
+        SelectedVersionIndex = Math.Max(Versions.IndexOf(Version), 0);
     }
 
     public PackageUniqueKey UniqueKey => _package.UniqueKey;
@@ -89,7 +95,9 @@ public partial class PackageViewModel : ObservableObject
 
     public string Name => _package.Name;
 
-    public string Version => _package.Version;
+    public string Version => _package.InstalledVersion;
+
+    public IList<string> Versions => _package.Versions;
 
     public bool IsInstalled => _package.IsInstalled;
 

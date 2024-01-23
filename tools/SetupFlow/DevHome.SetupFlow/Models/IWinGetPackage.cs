@@ -2,6 +2,8 @@
 // Licensed under the MIT license.
 
 using System;
+using System.Collections;
+using System.Collections.Generic;
 using DevHome.SetupFlow.Common.WindowsPackageManager;
 using DevHome.SetupFlow.Services;
 using Windows.Storage.Streams;
@@ -68,11 +70,17 @@ public interface IWinGetPackage
     }
 
     /// <summary>
-    /// Gets the version of the package which could be of any format supported
-    /// by WinGet package manager (e.g. alpha-numeric, 'Unknown', '1-preview, etc...).
-    /// <seealso cref="https://github.com/microsoft/winget-cli/blob/master/src/Microsoft.Management.Deployment/PackageManager.idl"/>
+    /// Gets the installed version of the package or null if the package is not installed
     /// </summary>
-    public string Version
+    public string InstalledVersion
+    {
+        get;
+    }
+
+    /// <summary>
+    /// Gets the list of available versions of the package
+    /// </summary>
+    public IList<string> Versions
     {
         get;
     }
