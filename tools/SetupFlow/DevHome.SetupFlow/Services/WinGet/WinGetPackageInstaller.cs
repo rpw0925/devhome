@@ -28,7 +28,7 @@ internal class WinGetPackageInstaller : IWinGetPackageInstaller
     }
 
     /// <inheritdoc />
-    public async Task<InstallPackageResult> InstallPackageAsync(WinGetCatalog catalog, string packageId)
+    public async Task<InstallPackageResult> InstallPackageAsync(WinGetCatalog catalog, string packageId, string version)
     {
         if (catalog == null)
         {
@@ -45,7 +45,7 @@ internal class WinGetPackageInstaller : IWinGetPackageInstaller
 
         // 2. Install package
         Log.Logger?.ReportInfo(Log.Component.AppManagement, $"Starting package installation for {packageId} from catalog {catalog.GetDescriptiveName()}");
-        var installResult = await InstallPackageInternalAsync(package);
+        var installResult = await InstallPackageInternalAsync(package, version);
         var extendedErrorCode = installResult.ExtendedErrorCode?.HResult ?? HRESULT.S_OK;
         var installErrorCode = installResult.GetValueOrDefault(res => res.InstallerErrorCode, HRESULT.S_OK); // WPM API V4
 
@@ -69,12 +69,23 @@ internal class WinGetPackageInstaller : IWinGetPackageInstaller
     /// </summary>
     /// <param name="package">Package to install</param>
     /// <returns>Install result</returns>
-    private async Task<InstallResult> InstallPackageInternalAsync(CatalogPackage package)
+    private async Task<InstallResult> InstallPackageInternalAsync(CatalogPackage package, string version)
     {
         var installOptions = _wingetFactory.CreateInstallOptions();
         installOptions.PackageInstallMode = PackageInstallMode.Silent;
         installOptions.PackageVersionId = package.AvailableVersions[0];
+
+        for (var i = 0; i < package.AvailableVersions.Count; i++)
+        {
+            if (package.AvailableVersions[i].Version == version)
+            {
+                installOptions.PackageVersionId = package.AvailableVersions[i];
+                break;
+            }
+        }
+
         var packageManager = _wingetFactory.CreatePackageManager();
+
         return await packageManager.InstallPackageAsync(package, installOptions).AsTask();
     }
 }

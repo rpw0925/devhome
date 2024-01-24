@@ -34,7 +34,7 @@ internal class WinGetInstallOperation : IWinGetInstallOperation
         return await _recovery.DoWithRecoveryAsync(async () =>
         {
             var catalog = await _catalogConnector.GetPackageCatalogAsync(package);
-            return await _packageInstaller.InstallPackageAsync(catalog, package.Id);
+            return await _packageInstaller.InstallPackageAsync(catalog, package.Id, null);
         });
     }
 
@@ -44,7 +44,7 @@ internal class WinGetInstallOperation : IWinGetInstallOperation
         return await _recovery.DoWithRecoveryAsync(async () =>
         {
             var catalog = await _protocolParser.ResolveCatalogAsync(packageUri);
-            return await _packageInstaller.InstallPackageAsync(catalog, packageUri.PackageId);
+            return await _packageInstaller.InstallPackageAsync(catalog, packageUri.PackageId, packageUri.Version);
         });
     }
 }

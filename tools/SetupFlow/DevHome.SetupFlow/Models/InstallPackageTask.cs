@@ -25,6 +25,7 @@ public class InstallPackageTask : ISetupTask
     private readonly IWindowsPackageManager _wpm;
     private readonly WinGetPackage _package;
     private readonly ISetupFlowStringResource _stringResource;
+    private readonly string _version;
     private readonly Guid _activityId;
 
     private InstallResultStatus _installResultStatus;
@@ -56,11 +57,13 @@ public class InstallPackageTask : ISetupTask
         IWindowsPackageManager wpm,
         ISetupFlowStringResource stringResource,
         WinGetPackage package,
+        string version,
         Guid activityId)
     {
         _wpm = wpm;
         _stringResource = stringResource;
         _package = package;
+        _version = version;
         _activityId = activityId;
     }
 
@@ -115,7 +118,7 @@ public class InstallPackageTask : ISetupTask
             {
                 Log.Logger?.ReportInfo(Log.Component.AppManagement, $"Starting installation of package {_package.Id}");
                 AddMessage(_stringResource.GetLocalized(StringResourceKey.StartingInstallPackageMessage, _package.Id));
-                var installResult = await _wpm.InstallPackageAsync(_package);
+                var installResult = await _wpm.InstallPackageAsync(new WinGetPackageUri(_package.CatalogName, _package.Id, _version));
                 RequiresReboot = installResult.RebootRequired;
                 WasInstallSuccessful = true;
 

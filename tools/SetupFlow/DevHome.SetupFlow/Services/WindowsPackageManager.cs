@@ -45,7 +45,7 @@ internal class WindowsPackageManager : IWindowsPackageManager
     }
 
     /// <inheritdoc/>
-    public async Task<InstallPackageResult> InstallPackageAsync(IWinGetPackage package) => await _operations.InstallPackageAsync(package);
+    public async Task<InstallPackageResult> InstallPackageAsync(WinGetPackageUri packageUri) => await _operations.InstallPackageAsync(packageUri);
 
     /// <inheritdoc/>
     public async Task<IList<IWinGetPackage>> GetPackagesAsync(IList<WinGetPackageUri> packageUris) => await _operations.GetPackagesAsync(packageUris);

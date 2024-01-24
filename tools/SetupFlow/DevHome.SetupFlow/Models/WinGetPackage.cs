@@ -74,8 +74,8 @@ public class WinGetPackage : IWinGetPackage
     public InstallPackageTask CreateInstallTask(
         IWindowsPackageManager wpm,
         ISetupFlowStringResource stringResource,
-        WindowsPackageManagerFactory wingetFactory,
-        Guid activityId) => new (wpm, stringResource, this, activityId);
+        string version,
+        Guid activityId) => new (wpm, stringResource, this, version, activityId);
 
     /// <summary>
     /// Gets the package metadata from the current culture name (e.g. 'en-US')

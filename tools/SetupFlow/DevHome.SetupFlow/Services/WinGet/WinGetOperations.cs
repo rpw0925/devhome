@@ -25,7 +25,7 @@ internal class WinGetOperations : IWinGetOperations
     }
 
     /// <inheritdoc />
-    public async Task<InstallPackageResult> InstallPackageAsync(IWinGetPackage package) => await _installOperation.InstallPackageAsync(package);
+    public async Task<InstallPackageResult> InstallPackageAsync(WinGetPackageUri package) => await _installOperation.InstallPackageAsync(package);
 
     /// <inheritdoc />
     public async Task<IList<IWinGetPackage>> GetPackagesAsync(IList<WinGetPackageUri> packageUris) => await _getPackageOperation.GetPackagesAsync(packageUris);

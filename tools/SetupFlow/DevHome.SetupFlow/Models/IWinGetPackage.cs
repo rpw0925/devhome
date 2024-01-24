@@ -146,11 +146,12 @@ public interface IWinGetPackage
     /// </summary>
     /// <param name="wpm">Windows package manager service</param>
     /// <param name="stringResource">String resource service</param>
-    /// <param name="wingetFactory">WinGet factory</param>
+    /// <param name="version">Version of the package to install</param>
+    /// <param name="activityId">Activity id for the install task</param>
     /// <returns>Task object for installing this package</returns>
     InstallPackageTask CreateInstallTask(
         IWindowsPackageManager wpm,
         ISetupFlowStringResource stringResource,
-        WindowsPackageManagerFactory wingetFactory,
+        string version,
         Guid activityId);
 }

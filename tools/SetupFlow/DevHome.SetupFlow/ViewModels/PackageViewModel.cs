@@ -3,6 +3,7 @@
 
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Threading.Tasks;
 using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
@@ -61,7 +62,9 @@ public partial class PackageViewModel : ObservableObject
     private bool _isSelected;
 
     [ObservableProperty]
-    private int _selectedVersionIndex;
+    [NotifyPropertyChangedFor(nameof(TooltipVersion))]
+    [NotifyPropertyChangedFor(nameof(PackageDescription))]
+    private string _version;
 
     public PackageViewModel(
         ISetupFlowStringResource stringResource,
@@ -82,9 +85,9 @@ public partial class PackageViewModel : ObservableObject
         // Lazy-initialize optional or expensive view model members
         _packageDarkThemeIcon = new Lazy<BitmapImage>(() => GetIconByTheme(RestoreApplicationIconTheme.Dark));
         _packageLightThemeIcon = new Lazy<BitmapImage>(() => GetIconByTheme(RestoreApplicationIconTheme.Light));
-        _installPackageTask = new Lazy<InstallPackageTask>(CreateInstallTask(host.GetService<SetupFlowOrchestrator>().ActivityId));
+        _installPackageTask = new Lazy<InstallPackageTask>(() => CreateInstallTask(host.GetService<SetupFlowOrchestrator>().ActivityId));
 
-        SelectedVersionIndex = Math.Max(Versions.IndexOf(Version), 0);
+        Version = !string.IsNullOrEmpty(_package.InstalledVersion) ? _package.InstalledVersion : _package.Versions.First();
     }
 
     public PackageUniqueKey UniqueKey => _package.UniqueKey;
@@ -94,8 +97,6 @@ public partial class PackageViewModel : ObservableObject
     public BitmapImage Icon => _themeSelector.IsDarkTheme() ? _packageDarkThemeIcon.Value : _packageLightThemeIcon.Value;
 
     public string Name => _package.Name;
-
-    public string Version => _package.InstalledVersion;
 
     public IList<string> Versions => _package.Versions;
 
@@ -207,7 +208,7 @@ public partial class PackageViewModel : ObservableObject
 
     private InstallPackageTask CreateInstallTask(Guid activityId)
     {
-        return _package.CreateInstallTask(_wpm, _stringResource, _wingetFactory, activityId);
+        return _package.CreateInstallTask(_wpm, _stringResource, Version, activityId);
     }
 
     private string GetPackageDescription()

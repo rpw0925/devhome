@@ -83,7 +83,7 @@
                         FontSize="{ThemeResource CaptionTextBlockFontSize}"
                         Foreground="{ThemeResource TextFillColorSecondaryBrush}"
                         HorizontalAlignment="Left"
-                        SelectedIndex="{Binding SelectedVersionIndex, Mode=TwoWay}"
+                        SelectedItem="{Binding Version, Mode=TwoWay}"
                         ItemsSource="{Binding Versions}">
                         <ComboBox.ItemTemplate>
                             <DataTemplate>

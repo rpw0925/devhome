@@ -76,7 +76,6 @@
                         <Button
                             Grid.Column="1"
                             AutomationProperties.Name="{Binding ButtonAutomationName}"
-                            IsEnabled="{Binding IsInstalled, Converter={StaticResource BoolNegationConverter}}"
                             Command="{Binding ToggleSelectionCommand}"
                             HorizontalAlignment="Right"
                             Padding="5">
@@ -119,8 +118,13 @@
                             FontSize="{ThemeResource CaptionTextBlockFontSize}"
                             Foreground="{ThemeResource TextFillColorSecondaryBrush}"
                             HorizontalAlignment="Left"
-                            SelectedIndex="{Binding SelectedVersionIndex, Mode=TwoWay}"
+                            SelectedItem="{Binding Version, Mode=TwoWay}"
                             ItemsSource="{Binding Versions}">
+                            <ComboBox.ItemContainerStyle>
+                                <Style TargetType="ComboBoxItem">
+                                    <Setter Property="IsEnabled" Value="True" />
+                                </Style>
+                            </ComboBox.ItemContainerStyle>
                             <ComboBox.ItemTemplate>
                                 <DataTemplate>
                                     <StackPanel Spacing="5" Orientation="Horizontal">

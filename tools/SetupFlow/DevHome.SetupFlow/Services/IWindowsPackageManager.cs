@@ -21,7 +21,7 @@ public interface IWindowsPackageManager
     public Task InitializeAsync();
 
     /// <inheritdoc cref="IWinGetOperations.InstallPackageAsync"/>
-    public Task<InstallPackageResult> InstallPackageAsync(IWinGetPackage package);
+    public Task<InstallPackageResult> InstallPackageAsync(WinGetPackageUri packageUri);
 
     /// <inheritdoc cref="IWinGetOperations.GetPackagesAsync"/>
     public Task<IList<IWinGetPackage>> GetPackagesAsync(IList<WinGetPackageUri> packageUris);
