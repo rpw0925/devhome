@@ -14,6 +14,8 @@
     xmlns:controls="using:DevHome.Dashboard.Controls"
     xmlns:behaviors="using:DevHome.Common.Behaviors"
     xmlns:converters="using:CommunityToolkit.WinUI.Converters"
+    xmlns:i="using:Microsoft.Xaml.Interactivity"
+    xmlns:ic="using:Microsoft.Xaml.Interactions.Core"
     behaviors:NavigationViewHeaderBehavior.HeaderMode="Never"
     mc:Ignorable="d">
 
@@ -32,6 +34,15 @@
             </ResourceDictionary.ThemeDictionaries>
         </ResourceDictionary>
     </Page.Resources>
+
+    <i:Interaction.Behaviors>
+        <ic:EventTriggerBehavior EventName="Loaded">
+            <ic:InvokeCommandAction Command="{x:Bind ViewModel.LoadedCommand}" />
+        </ic:EventTriggerBehavior>
+        <ic:EventTriggerBehavior EventName="ActualThemeChanged">
+            <ic:InvokeCommandAction Command="{x:Bind ViewModel.ActualThemeChangedCommand}" />
+        </ic:EventTriggerBehavior>
+    </i:Interaction.Behaviors>
 
     <Grid MaxWidth="{ThemeResource MaxPageContentWidth}" Margin="{ThemeResource ContentPageMargin}">
         <Grid.RowDefinitions>
@@ -66,7 +77,8 @@
                     Margin="0,0,0,10" />
 
                 <!-- Widget grid -->
-                <GridView x:Name="WidgetGridView" ItemsSource="{x:Bind views:DashboardView.PinnedWidgets}"
+                <GridView x:Name="WidgetGridView"
+                          ItemsSource="{x:Bind ViewModel.PinnedWidgets}"
                           CanReorderItems="True"
                           CanDragItems="True"
                           DragItemsStarting="WidgetGridView_DragItemsStarting">
@@ -99,11 +111,12 @@
                 <ProgressRing x:Name="LoadingWidgetsProgressRing"
                               Margin="0,150,0,0"
                               IsActive="True"
-                              HorizontalAlignment="Center"/>
+                              HorizontalAlignment="Center"
+                              Visibility="{x:Bind ViewModel.IsLoading, Mode=OneWay}" />
 
                 <!-- Widget grid empty message -->
                 <StackPanel x:Name="NoWidgetsStackPanel" HorizontalAlignment="Center" Margin="0,150,0,0"
-                            Visibility="{x:Bind ViewModel.GetNoWidgetMessageVisibility(views:DashboardView.PinnedWidgets.Count, ViewModel.IsLoading), Mode=OneWay}">
+                            Visibility="{x:Bind ViewModel.GetNoWidgetMessageVisibility(ViewModel.PinnedWidgets.Count, ViewModel.IsLoading), Mode=OneWay}">
                     <TextBlock x:Uid="NoWidgetsAdded" HorizontalAlignment="Center" />
                     <HyperlinkButton x:Name="AddFirstWidgetLink" x:Uid="AddFirstWidgetLink" HorizontalAlignment="Center" Command="{x:Bind AddWidgetClickCommand}" />
                 </StackPanel>

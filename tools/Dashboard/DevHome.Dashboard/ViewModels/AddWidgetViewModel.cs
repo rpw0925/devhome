@@ -10,7 +10,7 @@ using Microsoft.Windows.Widgets.Hosts;
 
 namespace DevHome.Dashboard.ViewModels;
 
-public partial class AddWidgetViewModel : ObservableObject
+internal sealed partial class AddWidgetViewModel : ObservableObject
 {
     private readonly IWidgetScreenshotService _widgetScreenshotService;
 
