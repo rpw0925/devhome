@@ -80,7 +80,7 @@ public partial class DashboardView : ToolPage
         var draggedObject = e.Items.FirstOrDefault();
         var draggedWidgetViewModel = draggedObject as WidgetViewModel;
         e.Data.Properties.Add(DraggedWidget, draggedWidgetViewModel);
-        e.Data.Properties.Add(DraggedIndex, DashboardViewModel.PinnedWidgets.IndexOf(draggedWidgetViewModel));
+        e.Data.Properties.Add(DraggedIndex, ViewModel.PinnedWidgets.IndexOf(draggedWidgetViewModel));
     }
 
     private void WidgetControl_DragOver(object sender, DragEventArgs e)
@@ -140,7 +140,7 @@ public partial class DashboardView : ToolPage
         // moved from a lower index to a higher one, removing the moved widget before inserting it will ensure that any
         // widgets between the starting and ending indices move up to replace the removed widget. If the widget was
         // moved from a higher index to a lower one, then the order of removal and insertion doesn't matter.
-        DashboardViewModel.PinnedWidgets.RemoveAt(draggedIndex);
+        ViewModel.PinnedWidgets.RemoveAt(draggedIndex);
         var widgetPair = new KeyValuePair<int, Widget>(droppedIndex, draggedWidgetViewModel.Widget);
         await ViewModel.PlaceWidget(widgetPair, droppedIndex);
 
@@ -150,7 +150,7 @@ public partial class DashboardView : ToolPage
         var endIndex = draggedIndex < droppedIndex ? droppedIndex : draggedIndex + 1;
         for (var i = startIndex; i < endIndex; i++)
         {
-            var widgetToUpdate = DashboardViewModel.PinnedWidgets.ElementAt(i);
+            var widgetToUpdate = ViewModel.PinnedWidgets.ElementAt(i);
             await WidgetHelpers.SetPositionCustomStateAsync(widgetToUpdate.Widget, i);
         }
 

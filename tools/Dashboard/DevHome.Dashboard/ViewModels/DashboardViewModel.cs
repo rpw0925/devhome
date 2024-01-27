@@ -29,7 +29,7 @@ public partial class DashboardViewModel : ObservableObject
 
     private readonly WidgetViewModelFactory _widgetViewModelFactory;
 
-    public static ObservableCollection<WidgetViewModel> PinnedWidgets { get; set; }
+    public ObservableCollection<WidgetViewModel> PinnedWidgets { get; set; }
 
     [ObservableProperty]
     private bool _isLoading;
