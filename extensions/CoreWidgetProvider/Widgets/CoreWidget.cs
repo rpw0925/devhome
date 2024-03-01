@@ -110,7 +110,14 @@ internal abstract class CoreWidget : WidgetImpl
         };
 
         Log.Logger()?.ReportDebug(Name, ShortId, $"Updating widget for {Page}");
-        WidgetManager.GetDefault().UpdateWidget(updateOptions);
+        try
+        {
+            WidgetManager.GetDefault().UpdateWidget(updateOptions);
+        }
+        catch (Exception e)
+        {
+            Log.Logger()?.ReportCritical("****** Error!", e);
+        }
     }
 
     public virtual string GetTemplatePath(WidgetPageState page)
