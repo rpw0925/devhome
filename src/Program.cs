@@ -1,7 +1,10 @@
 ﻿// Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
+using DevHome.Activation;
+using DevHome.Contracts.Services;
 using Microsoft.UI.Dispatching;
+using Windows.ApplicationModel.Activation;
 
 namespace DevHome;
 
@@ -48,8 +51,20 @@ public static class Program
         return isRedirect;
     }
 
-    private static void OnActivated(object? sender, Microsoft.Windows.AppLifecycle.AppActivationArguments e)
+    private static async void OnActivated(object? sender, Microsoft.Windows.AppLifecycle.AppActivationArguments args)
     {
+        if (args.Kind == Microsoft.Windows.AppLifecycle.ExtendedActivationKind.Protocol)
+        {
+            if (args.Data as ProtocolActivatedEventArgs is ProtocolActivatedEventArgs eventArgs && _app != null)
+            {
+                var protocolActivationHandler = _app!.GetService<IActivationHandler>();
+                if (protocolActivationHandler != null && protocolActivationHandler.CanHandle(eventArgs))
+                {
+                    await _app.GetService<IActivationService>().ActivateAsync(eventArgs);
+                }
+            }
+        }
+
         _app?.ShowMainWindow();
     }
 }

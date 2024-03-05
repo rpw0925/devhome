@@ -1,11 +1,6 @@
 ﻿// Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using DevHome.Activation;
 using DevHome.Common.Services;
 using DevHome.Settings.ViewModels;
@@ -21,15 +16,19 @@ public class ProtocolActivationHandler : ActivationHandler<ProtocolActivatedEven
 
     public ProtocolActivationHandler(INavigationService navigationService)
     {
-        this._navigationService = navigationService;
+        _navigationService = navigationService;
+    }
+
+    protected override bool CanHandleInternal(ProtocolActivatedEventArgs args)
+    {
+        return true;
     }
 
     protected override Task HandleInternalAsync(ProtocolActivatedEventArgs args)
     {
         if (args.Uri.AbsolutePath == SettingsAccountsUri)
         {
-            _navigationService.DefaultPage = typeof(AccountsViewModel).FullName!;
-            _navigationService.NavigateTo(_navigationService.DefaultPage);
+            _navigationService.NavigateTo(typeof(AccountsViewModel).FullName!);
         }
 
         return Task.CompletedTask;
