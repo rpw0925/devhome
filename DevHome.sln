@@ -125,6 +125,8 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DevSetupAgent.Test", "Hyper
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "HyperVExtension.HostGuestCommunication", "HyperVExtension\src\HyperVExtension.HostGuestCommunication\HyperVExtension.HostGuestCommunication.csproj", "{D759CD66-494C-4A00-8075-8B65A9891349}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DevHome.WebView2Tool", "tools\WebView2Tool\DevHome.WebView2Tool.csproj", "{3822DFF0-56D2-432B-A179-97C6954936BE}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -769,6 +771,22 @@ Global
 		{D759CD66-494C-4A00-8075-8B65A9891349}.Release|x64.Build.0 = Release|x64
 		{D759CD66-494C-4A00-8075-8B65A9891349}.Release|x86.ActiveCfg = Release|x86
 		{D759CD66-494C-4A00-8075-8B65A9891349}.Release|x86.Build.0 = Release|x86
+		{3822DFF0-56D2-432B-A179-97C6954936BE}.Debug|Any CPU.ActiveCfg = Debug|x64
+		{3822DFF0-56D2-432B-A179-97C6954936BE}.Debug|Any CPU.Build.0 = Debug|x64
+		{3822DFF0-56D2-432B-A179-97C6954936BE}.Debug|arm64.ActiveCfg = Debug|ARM64
+		{3822DFF0-56D2-432B-A179-97C6954936BE}.Debug|arm64.Build.0 = Debug|ARM64
+		{3822DFF0-56D2-432B-A179-97C6954936BE}.Debug|x64.ActiveCfg = Debug|x64
+		{3822DFF0-56D2-432B-A179-97C6954936BE}.Debug|x64.Build.0 = Debug|x64
+		{3822DFF0-56D2-432B-A179-97C6954936BE}.Debug|x86.ActiveCfg = Debug|x86
+		{3822DFF0-56D2-432B-A179-97C6954936BE}.Debug|x86.Build.0 = Debug|x86
+		{3822DFF0-56D2-432B-A179-97C6954936BE}.Release|Any CPU.ActiveCfg = Release|x64
+		{3822DFF0-56D2-432B-A179-97C6954936BE}.Release|Any CPU.Build.0 = Release|x64
+		{3822DFF0-56D2-432B-A179-97C6954936BE}.Release|arm64.ActiveCfg = Release|ARM64
+		{3822DFF0-56D2-432B-A179-97C6954936BE}.Release|arm64.Build.0 = Release|ARM64
+		{3822DFF0-56D2-432B-A179-97C6954936BE}.Release|x64.ActiveCfg = Release|x64
+		{3822DFF0-56D2-432B-A179-97C6954936BE}.Release|x64.Build.0 = Release|x64
+		{3822DFF0-56D2-432B-A179-97C6954936BE}.Release|x86.ActiveCfg = Release|x86
+		{3822DFF0-56D2-432B-A179-97C6954936BE}.Release|x86.Build.0 = Release|x86
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -816,6 +834,7 @@ Global
 		{F4095FD3-6A3F-490B-966D-E63059612EE6} = {3E3791DF-070D-4ADE-96E8-93D6FBD53953}
 		{0E05A442-BDC7-43D4-A000-F8C986826716} = {3E3791DF-070D-4ADE-96E8-93D6FBD53953}
 		{D759CD66-494C-4A00-8075-8B65A9891349} = {81AACED5-CFB5-47A6-AFD6-4625AADCFFA3}
+		{3822DFF0-56D2-432B-A179-97C6954936BE} = {A972EC5B-FC61-4964-A6FF-F9633EB75DFD}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {030B5641-B206-46BB-BF71-36FF009088FA}

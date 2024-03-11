@@ -40,6 +40,14 @@
             "viewModelFullName": "DevHome.QuietBackgroundProcesses.UI.ViewModels.QuietBackgroundProcessesViewModel",
             "icon": "f5b0",
             "experimentalFeatureIdentity": "QuietBackgroundProcessesExperiment"
+          },
+          {
+            "experimentalFeatureIdentity": "WebView2Tool",
+            "identity": "DevHome.WebView2Tool",
+            "assembly": "DevHome.WebView2Tool",
+            "viewFullName": "DevHome.WebView2Tool.Views.WebView2ToolView",
+            "viewModelFullName": "DevHome.WebView2Tool.ViewModels.WebView2ToolViewModel",
+            "icon": "f1ad"
           }
         ]
       }
@@ -95,6 +103,27 @@
         {
           "buildType": "dev",
           "enabledByDefault": false,
+          "visible": true
+        },
+        {
+          "buildType": "canary",
+          "enabledByDefault": false,
+          "visible": false
+        },
+        {
+          "buildType": "release",
+          "enabledByDefault": false,
+          "visible": false
+        }
+      ]
+    },
+    {
+      "identity": "WebView2Tool",
+      "enabledByDefault": false,
+      "buildTypeOverrides": [
+        {
+          "buildType": "dev",
+          "enabledByDefault": true,
           "visible": true
         },
         {
