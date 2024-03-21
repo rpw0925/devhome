@@ -7,8 +7,7 @@
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:ctControls="using:CommunityToolkit.WinUI.Controls"
     xmlns:behaviors="using:DevHome.Common.Behaviors"
-    behaviors:NavigationViewHeaderBehavior.HeaderTemplate="{StaticResource BreadcrumbBarDataTemplate}"
-    behaviors:NavigationViewHeaderBehavior.HeaderContext="{x:Bind ViewModel}"
+    behaviors:NavigationViewHeaderBehavior.HeaderContext="{x:Bind ViewModel.Breadcrumbs}"
     Loaded="Page_Loaded">
 
     <ScrollViewer VerticalAlignment="Top" VerticalScrollBarVisibility="Auto">

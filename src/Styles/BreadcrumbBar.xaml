@@ -22,7 +22,7 @@
         <Grid MaxWidth="{ThemeResource MaxPageContentWidth}" Margin="{ThemeResource ContentPageMargin}">
             <BreadcrumbBar
                     x:Name="BreadcrumbBar"
-                    ItemsSource="{Binding Breadcrumbs}">
+                    ItemsSource="{Binding}">
                 <i:Interaction.Behaviors>
                     <behaviors:BreadcrumbNavigationBehavior />
                 </i:Interaction.Behaviors>

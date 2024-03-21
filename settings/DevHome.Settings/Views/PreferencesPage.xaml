@@ -7,8 +7,7 @@
     xmlns:ic="using:Microsoft.Xaml.Interactions.Core"
     xmlns:xaml="using:Microsoft.UI.Xaml"
     xmlns:behaviors="using:DevHome.Common.Behaviors"
-    behaviors:NavigationViewHeaderBehavior.HeaderTemplate="{StaticResource BreadcrumbBarDataTemplate}"
-    behaviors:NavigationViewHeaderBehavior.HeaderContext="{x:Bind ViewModel}"
+    behaviors:NavigationViewHeaderBehavior.HeaderContext="{x:Bind ViewModel.Breadcrumbs}"
     Loaded="Page_Loaded">
 
     <ScrollViewer VerticalAlignment="Top" VerticalScrollBarVisibility="Auto">
