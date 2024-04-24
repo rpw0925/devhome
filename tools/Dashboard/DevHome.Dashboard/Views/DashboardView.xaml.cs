@@ -246,7 +246,11 @@ public partial class DashboardView : ToolPage, IDisposable
             var id = await ComSafeWidget.GetIdFromUnsafeWidgetAsync(unsafeWidget);
             if (!string.IsNullOrEmpty(id))
             {
-                comSafeHostWidgets.Add(new ComSafeWidget(id));
+                var comSafeWidget = new ComSafeWidget(id);
+                if (await comSafeWidget.PopulateAsync())
+                {
+                    comSafeHostWidgets.Add(comSafeWidget);
+                }
             }
         }
 
@@ -430,6 +434,11 @@ public partial class DashboardView : ToolPage, IDisposable
             }
 
             var comSafeWidget = new ComSafeWidget(unsafeWidgetId);
+            if (!await comSafeWidget.PopulateAsync())
+            {
+                return;
+            }
+
             _log.Information($"Created default widget {unsafeWidgetId}");
 
             // Set custom state on new widget.
@@ -508,6 +517,10 @@ public partial class DashboardView : ToolPage, IDisposable
                 }
 
                 var comSafeWidget = new ComSafeWidget(unsafeWidgetId);
+                if (!await comSafeWidget.PopulateAsync())
+                {
+                    return;
+                }
 
                 // Set custom state on new widget.
                 var position = PinnedWidgets.Count;
@@ -558,7 +571,7 @@ public partial class DashboardView : ToolPage, IDisposable
                 TelemetryFactory.Get<ITelemetry>().Log(
                     "Dashboard_ReportPinnedWidget",
                     LogLevel.Critical,
-                    new ReportPinnedWidgetEvent(comSafeWidgetDefinition.ProviderDefinitionId, widgetDefinitionId));
+                    new ReportPinnedWidgetEvent(comSafeWidgetDefinition.ProviderDefinition.Id, widgetDefinitionId));
 
                 var wvm = _widgetViewModelFactory(widget, size, comSafeWidgetDefinition);
                 _windowEx.DispatcherQueue.TryEnqueue(() =>

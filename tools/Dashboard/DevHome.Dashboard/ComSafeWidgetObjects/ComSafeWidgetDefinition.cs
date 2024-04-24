@@ -30,13 +30,7 @@ public class ComSafeWidgetDefinition : IDisposable
 
     public string Id { get; private set; }
 
-    public WidgetProviderDefinition ProviderDefinition { get; private set; }
-
-    // Since the ProviderDefinition could have died, save the display name and id so we can use it in that case.
-    // These can be removed if we keep a ComSafeWidgetProviderDefinition here.
-    public string ProviderDefinitionDisplayName { get; private set; }
-
-    public string ProviderDefinitionId { get; private set; }
+    public ComSafeWidgetProviderDefinition ProviderDefinition { get; private set; }
 
     public string AdditionalInfoUri { get; private set; }
 
@@ -144,15 +138,18 @@ public class ComSafeWidgetDefinition : IDisposable
 
                     if (!_hasValidProperties)
                     {
-                        await Task.Run(() =>
+                        await Task.Run(async () =>
                         {
                             AllowMultiple = _oopWidgetDefinition.AllowMultiple;
                             Description = _oopWidgetDefinition.Description;
                             DisplayTitle = _oopWidgetDefinition.DisplayTitle;
                             Id = _oopWidgetDefinition.Id;
-                            ProviderDefinition = _oopWidgetDefinition.ProviderDefinition;
-                            ProviderDefinitionDisplayName = _oopWidgetDefinition.ProviderDefinition.DisplayName;
-                            ProviderDefinitionId = _oopWidgetDefinition.ProviderDefinition.Id;
+                            ProviderDefinition = new ComSafeWidgetProviderDefinition(_oopWidgetDefinition.ProviderDefinition);
+                            if (!(await ProviderDefinition.Populate()))
+                            {
+                                return;
+                            }
+
                             AdditionalInfoUri = _oopWidgetDefinition.AdditionalInfoUri;
                             IsCustomizable = _oopWidgetDefinition.IsCustomizable;
                             Type = _oopWidgetDefinition.Type;
@@ -176,7 +173,7 @@ public class ComSafeWidgetDefinition : IDisposable
     /// Get a WidgetDefinition's ID from a WidgetDefinition object.
     /// </summary>
     /// <param name="widgetDefinition">WidgetDefinition</param>
-    /// <returns>The Widget's Id, or in the case of failure string.Empty</returns>
+    /// <returns>The WidgetDefinition's Id, or in the case of failure string.Empty</returns>
     public static async Task<string> GetIdFromUnsafeWidgetDefinitionAsync(WidgetDefinition widgetDefinition)
     {
         return await Task.Run(() =>
