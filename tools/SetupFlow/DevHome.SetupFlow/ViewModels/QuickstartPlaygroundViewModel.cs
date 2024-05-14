@@ -24,7 +24,6 @@ using Microsoft.Windows.DevHome.SDK;
 using Serilog;
 using Windows.Storage;
 using Windows.Storage.Pickers;
-using WinUIEx;
 
 namespace DevHome.SetupFlow.ViewModels;
 
@@ -184,7 +183,7 @@ public partial class QuickstartPlaygroundViewModel : SetupPageViewModelBase
 
             // TODO: Replace with WindowSaveFileDialog
             var folderPicker = new FolderPicker();
-            var hWnd = Application.Current.GetService<WindowEx>().GetWindowHandle();
+            var hWnd = Application.Current.GetService<Window>().GetWindowHandle();
             WinRT.Interop.InitializeWithWindow.Initialize(folderPicker, hWnd);
             folderPicker.FileTypeFilter.Add("*");
 

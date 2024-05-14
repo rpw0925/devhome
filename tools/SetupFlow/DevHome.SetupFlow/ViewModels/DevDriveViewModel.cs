@@ -104,7 +104,7 @@ public partial class DevDriveViewModel : ObservableObject, IDevDriveWindowViewMo
     /// <summary>
     /// Gets a value indicating the window title of the Dev Drive window.
     /// </summary>
-    public string AppTitle => Application.Current.GetService<WindowEx>().Title;
+    public string AppTitle => Application.Current.GetService<Window>().Title;
 
     public DevDriveViewModel(
         ISetupFlowStringResource stringResource,
