@@ -8,6 +8,7 @@ using System.Windows.Input;
 using CommunityToolkit.Mvvm.Input;
 using DevHome.Telemetry;
 using DevHome.Utilities.TelemetryEvents;
+using Microsoft.UI.Xaml;
 using Serilog;
 
 namespace DevHome.Utilities.ViewModels;
@@ -17,6 +18,8 @@ public class UtilityViewModel : INotifyPropertyChanged
     private readonly ILogger _log = Log.ForContext("SourceContext", nameof(UtilityViewModel));
 
     private readonly string exeName;
+
+    private bool launchAsAdmin;
 
     public string Title { get; set; }
 
@@ -28,7 +31,20 @@ public class UtilityViewModel : INotifyPropertyChanged
 
     public ICommand LaunchCommand { get; set; }
 
-    public ICommand LaunchAsAdminCommand { get; set; }
+    public Visibility LaunchAsAdminVisibility { get; set; }
+
+    public bool LaunchAsAdmin
+    {
+        get => launchAsAdmin;
+
+        set
+        {
+            if (launchAsAdmin != value)
+            {
+                launchAsAdmin = value;
+            }
+        }
+    }
 
     public event PropertyChangedEventHandler PropertyChanged;
 
@@ -41,23 +57,12 @@ public class UtilityViewModel : INotifyPropertyChanged
     {
         this.exeName = exeName;
         LaunchCommand = new RelayCommand(Launch);
-        LaunchAsAdminCommand = new RelayCommand(LaunchAsAdmin);
         _log.Information("UtilityViewModel created for Title: {Title}, exe: {ExeName}", Title, exeName);
     }
 
     private void Launch()
     {
-        LaunchInternal(false);
-    }
-
-    private void LaunchAsAdmin()
-    {
-        LaunchInternal(true);
-    }
-
-    private void LaunchInternal(bool runAsAdmin)
-    {
-        _log.Information("Launching {ExeName}, as admin: {RunAsAdmin}", exeName, runAsAdmin);
+        _log.Information("Launching {ExeName}, as admin: {RunAsAdmin}", exeName, launchAsAdmin);
 
         // We need to start the process with ShellExecute to run elevated
         var processStartInfo = new ProcessStartInfo
@@ -65,7 +70,7 @@ public class UtilityViewModel : INotifyPropertyChanged
             FileName = exeName,
             UseShellExecute = true,
 
-            Verb = runAsAdmin ? "runas" : "open",
+            Verb = launchAsAdmin ? "runas" : "open",
         };
 
         var process = Process.Start(processStartInfo);
@@ -75,6 +80,6 @@ public class UtilityViewModel : INotifyPropertyChanged
             throw new InvalidOperationException("Failed to start process");
         }
 
-        TelemetryFactory.Get<DevHome.Telemetry.ITelemetry>().Log("Utilities_UtilitiesLaunchEvent", LogLevel.Critical, new UtilitiesLaunchEvent(Title, runAsAdmin), null);
+        TelemetryFactory.Get<DevHome.Telemetry.ITelemetry>().Log("Utilities_UtilitiesLaunchEvent", LogLevel.Critical, new UtilitiesLaunchEvent(Title, launchAsAdmin), null);
     }
 }
