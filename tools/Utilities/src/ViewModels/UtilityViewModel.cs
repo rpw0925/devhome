@@ -17,7 +17,7 @@ public class UtilityViewModel : INotifyPropertyChanged
 {
     private readonly ILogger _log = Log.ForContext("SourceContext", nameof(UtilityViewModel));
 
-    private readonly string exeName;
+    private readonly string _exeName;
 
     private bool launchAsAdmin;
 
@@ -55,19 +55,19 @@ public class UtilityViewModel : INotifyPropertyChanged
 
     public UtilityViewModel(string exeName)
     {
-        this.exeName = exeName;
+        this._exeName = exeName;
         LaunchCommand = new RelayCommand(Launch);
         _log.Information("UtilityViewModel created for Title: {Title}, exe: {ExeName}", Title, exeName);
     }
 
     private void Launch()
     {
-        _log.Information("Launching {ExeName}, as admin: {RunAsAdmin}", exeName, launchAsAdmin);
+        _log.Information($"Launching {_exeName}, as admin: {launchAsAdmin}");
 
         // We need to start the process with ShellExecute to run elevated
         var processStartInfo = new ProcessStartInfo
         {
-            FileName = exeName,
+            FileName = _exeName,
             UseShellExecute = true,
 
             Verb = launchAsAdmin ? "runas" : "open",
@@ -76,7 +76,7 @@ public class UtilityViewModel : INotifyPropertyChanged
         var process = Process.Start(processStartInfo);
         if (process is null)
         {
-            _log.Error("Failed to start process {ExeName}", exeName);
+            _log.Error("Failed to start process {ExeName}", _exeName);
             throw new InvalidOperationException("Failed to start process");
         }
 
