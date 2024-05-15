@@ -1,3 +1,0 @@
-﻿SHGetSetSettings
-ReadCabinetState
-WriteCabinetState
